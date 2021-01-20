@@ -17,6 +17,7 @@ import Show from "components/Appointment/Show";
 import Confirm from "components/Appointment/Confirm";
 import Status from "components/Appointment/Status";
 import Error from "components/Appointment/Error";
+import Form from "components/Appointment/Form";
 //stories for Button
 storiesOf("Button", module)
   .addParameters({
@@ -127,14 +128,14 @@ storiesOf("InterviewerList", module)
   .add("Initial", () => (
     <InterviewerList
       interviewers={interviewers}
-      setInterviewer={action("setInterviewer")}
+      onChange={action("setInterviewer")}
     />
   ))
   .add("Preselected", () => (
     <InterviewerList
       interviewers={interviewers}
-      interviewer={3}
-      setInterviewer={action("setInterviewer")}
+      value={3}
+      onChange={action("setInterviewer")}
     />
   ));
 
@@ -173,5 +174,21 @@ storiesOf("InterviewerList", module)
     <Error 
       message={"Could not save appointment"} 
       onClose={action("onClose")}
+    />
+  ))
+  .add("Edit", () => (
+    <Form 
+    name = {"Lydia Miller-Jones"}
+    interviewers={interviewers}
+    interviewer={interviewer.id}
+    onSave={action("onSave")}
+    onCancel={action("onCancel")} 
+    />
+  ))
+  .add("Create", () => (
+    <Form 
+    interviewers={interviewers}
+    onSave={action("onSave")}
+    onCancel={action("onCancel")} 
     />
   ))

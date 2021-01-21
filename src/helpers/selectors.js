@@ -1,11 +1,20 @@
-export default function getAppointmentsForDay(state, dayname) {
-  const dayObject = state.days.filter( day => day.name === dayname);
-  if(dayObject.length === 0){
+export function getAppointmentsForDay(state, day) {
+  const foundDay = state.days.find(stateDay => day === stateDay.name);
+  if (!foundDay) {
     return [];
   }
-  const filteredAppointments = Object.values(state.appointments).filter(function(appointment){
-    return dayObject[0].appointments.indexOf(appointment.id) > -1 
+  const filteredAppointments = foundDay.appointments.map(appointment => {
+    return state.appointments[appointment];
   });
-
   return filteredAppointments;
 };
+
+export function getInterview(state, interview) {
+  if (!interview) {
+    return null;
+  }
+  return {
+    student: interview.student,
+    interviewer: state.interviewers[interview.interviewer]
+  };
+}

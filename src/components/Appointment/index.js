@@ -53,7 +53,7 @@ export default function Appointment(props){
         {mode === CREATE && (<Form 
           interviewers={props.interviewers}
           onSave={save}
-          onCancel={cancel}
+          onCancel={back}
         />)}
         {mode === SAVE && <Status message="SAVING"/>}
         {mode === DELETE && <Status message="DELETING"/>}

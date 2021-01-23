@@ -36,14 +36,14 @@ export default function Appointment(props){
   }
   //function to delete a interview
   function cancel() {
-    transition(DELETE);
+    transition(DELETE, true);
     const interview = {
       student:"",
       interviewer:null
     }
     props.cancelInterview(props.id,interview)
     .then(() =>transition(EMPTY))
-    .catch(error => transition(ERROR_DELETE));
+    .catch(error => transition(ERROR_DELETE,true));
   }
 
   return <article className="appointment">
@@ -71,7 +71,7 @@ export default function Appointment(props){
     interviewer={props.interview.interviewer.id}
     interviewers={props.interviewers}
     onSave={save}
-    onCancel={() => back(SHOW)} 
+    onCancel={() => back()} 
     />)}
     {mode === ERROR_SAVE && ( <Error 
       message={"Could not save appointment"} 

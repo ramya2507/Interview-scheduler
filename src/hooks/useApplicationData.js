@@ -30,6 +30,7 @@ export function useApplicationData(){
     const appointment = {...state.appointments[id],interview: { ...interview } };
     const appointments = {...state.appointments,[id]: appointment };
     //using axios to delete data in the api
+    console.log(state.days);
     return axios.delete(`http://localhost:8001/api/appointments/${id}`)
       .then( () => setState({...state,appointments}))    
   }
@@ -51,8 +52,6 @@ export function useApplicationData(){
     axios.get("/api/days")
       .then(days => setState(state => ({ ...state, days: days.data })));
   }, [state.appointments])
-
-
 
   return { state , setDay, bookInterview, cancelInterview }
 }

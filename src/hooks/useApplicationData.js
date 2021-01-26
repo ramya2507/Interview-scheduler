@@ -18,8 +18,6 @@ export function useApplicationData(){
 
   //function to book an appointment  
   const bookInterview = (id, interview) => {
-    console.log(id, interview);
-    console.log(state.days);
     let days = [...state.days]
     const appointment = {...state.appointments[id],interview: { ...interview } };
     const appointments = {...state.appointments,[id]: appointment };   
@@ -38,7 +36,6 @@ export function useApplicationData(){
   }
    //function to delete interview
    const cancelInterview = (id, interview) => {
-    console.log(id,interview);
     const appointment = {...state.appointments[id],interview: { ...interview } };
     const appointments = {...state.appointments,[id]: appointment };
     let days = [...state.days]  
@@ -56,6 +53,8 @@ export function useApplicationData(){
         setState({...state, appointments, days})
       })    
   }
+
+  //to get data from api
   useEffect(() => {
     Promise.all([
       axios.get("/api/days"),

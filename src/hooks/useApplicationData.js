@@ -15,24 +15,46 @@ export function useApplicationData(){
     interviewers: {}
   });
   const setDay = day => setState({ ...state, day });
-    
+
+  //function to book an appointment  
   const bookInterview = (id, interview) => {
     console.log(id, interview);
+    console.log(state.days);
+    let days = [...state.days]
     const appointment = {...state.appointments[id],interview: { ...interview } };
-    const appointments = {...state.appointments,[id]: appointment }; 
-      //using axios to put data in the api
+    const appointments = {...state.appointments,[id]: appointment };   
+    //using axios to put data in the api
     return axios.put(`http://localhost:8001/api/appointments/${id}`,{"interview":interview})
-      .then( () => setState({...state,appointments}))  
+      .then( () => {
+        //to update the spots available after axios resolves
+        days = state.days.map(day => {
+          if(day.appointments.includes(id)){
+            day.spots--;
+          }
+          return day;
+        })
+        setState({...state,appointments, days});
+      })
   }
    //function to delete interview
    const cancelInterview = (id, interview) => {
     console.log(id,interview);
     const appointment = {...state.appointments[id],interview: { ...interview } };
     const appointments = {...state.appointments,[id]: appointment };
-    //using axios to delete data in the api
+    let days = [...state.days]  
+     //using axios to delete data in the api
     console.log(state.days);
     return axios.delete(`http://localhost:8001/api/appointments/${id}`)
-      .then( () => setState({...state,appointments}))    
+      .then( () => {
+         //to update the spots available after axios resolves
+        days = days.map(day => {
+          if(day.appointments.includes(id)){
+            day.spots++;
+          }
+          return day;
+        })
+        setState({...state, appointments, days})
+      })    
   }
   useEffect(() => {
     Promise.all([
@@ -48,10 +70,10 @@ export function useApplicationData(){
     })
   },[]);
   //function to change spot
-  useEffect(() => {
+  /*useEffect(() => {
     axios.get("/api/days")
       .then(days => setState(state => ({ ...state, days: days.data })));
-  }, [state.appointments])
+  }, [state.appointments])*/
 
   return { state , setDay, bookInterview, cancelInterview }
 }

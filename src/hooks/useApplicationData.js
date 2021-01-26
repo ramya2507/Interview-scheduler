@@ -69,11 +69,5 @@ export function useApplicationData(){
       }));
     })
   },[]);
-  //function to change spot
-  /*useEffect(() => {
-    axios.get("/api/days")
-      .then(days => setState(state => ({ ...state, days: days.data })));
-  }, [state.appointments])*/
-
   return { state , setDay, bookInterview, cancelInterview }
 }

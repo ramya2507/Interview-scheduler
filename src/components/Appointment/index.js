@@ -40,13 +40,13 @@ export default function Appointment(props){
     const interview = {
       student:"",
       interviewer:null
-    }
+    };
     props.cancelInterview(props.id,interview)
     .then(() =>transition(EMPTY))
     .catch(error => transition(ERROR_DELETE,true));
   }
 
-  return <article className="appointment" data-testid="appointment">
+  return (<article className="appointment" data-testid="appointment">
         <Header time={props.time} />
         {mode === EMPTY && <Empty onAdd={() => transition(CREATE)} />}
         {mode === SHOW && (<Show 
@@ -81,5 +81,5 @@ export default function Appointment(props){
       message={"Could not delete appointment"} 
       onClose={() => back()}
     />)}
-  </article>;
+  </article>);
 }

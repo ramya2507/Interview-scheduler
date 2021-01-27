@@ -24,13 +24,13 @@ export default function Appointment(props){
   );
   //function to save a interview
   function save(name, interviewer) {
+    let edit = (mode ===  EDIT)
     transition(SAVE);
     const interview = {
       student: name,
       interviewer
     };
-    console.log("I am in save");
-    props.bookInterview(props.id,interview)
+    props.bookInterview(props.id,interview,edit)
     .then(() =>transition(SHOW))
     .catch(error => transition(ERROR_SAVE, true));
   }
@@ -46,7 +46,7 @@ export default function Appointment(props){
     .catch(error => transition(ERROR_DELETE,true));
   }
 
-  return <article className="appointment">
+  return <article className="appointment" data-testid="appointment">
         <Header time={props.time} />
         {mode === EMPTY && <Empty onAdd={() => transition(CREATE)} />}
         {mode === SHOW && (<Show 

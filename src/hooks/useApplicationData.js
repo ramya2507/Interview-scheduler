@@ -17,39 +17,39 @@ export function useApplicationData(){
   const setDay = day => setState({ ...state, day });
 
   //function to book an appointment  
-  const bookInterview = (id, interview) => {
-    let days = [...state.days]
+  const bookInterview = (id, interview, edit) => {
     const appointment = {...state.appointments[id],interview: { ...interview } };
-    const appointments = {...state.appointments,[id]: appointment };   
+    const appointments = {...state.appointments,[id]: appointment }; 
+    //to update the spots available after axios resolves
+    const days = (state.days).map(day => {
+      const newDay = {...day}
+      if(newDay.appointments.includes(id)){
+        newDay.spots--;
+      }
+      return newDay;
+    })
     //using axios to put data in the api
     return axios.put(`http://localhost:8001/api/appointments/${id}`,{"interview":interview})
       .then( () => {
-        //to update the spots available after axios resolves
-        days = state.days.map(day => {
-          if(day.appointments.includes(id)){
-            day.spots--;
-          }
-          return day;
-        })
-        setState({...state,appointments, days});
+        edit ? setState({...state, appointments}): setState({...state, appointments,days})
       })
   }
    //function to delete interview
    const cancelInterview = (id, interview) => {
     const appointment = {...state.appointments[id],interview: { ...interview } };
     const appointments = {...state.appointments,[id]: appointment };
-    let days = [...state.days]  
-     //using axios to delete data in the api
+    //to update the spots available after axios resolves
+    const days = (state.days).map(day => {
+      const newDay = {...day}
+      if(newDay.appointments.includes(id)){
+        newDay.spots++;
+      }
+      return newDay;
+    })
+    //using axios to delete data in the api
     console.log(state.days);
     return axios.delete(`http://localhost:8001/api/appointments/${id}`)
       .then( () => {
-         //to update the spots available after axios resolves
-        days = days.map(day => {
-          if(day.appointments.includes(id)){
-            day.spots++;
-          }
-          return day;
-        })
         setState({...state, appointments, days})
       })    
   }

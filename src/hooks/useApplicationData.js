@@ -47,7 +47,6 @@ export function useApplicationData(){
       return newDay;
     })
     //using axios to delete data in the api
-    console.log(state.days);
     return axios.delete(`http://localhost:8001/api/appointments/${id}`)
       .then( () => {
         setState({...state, appointments, days})

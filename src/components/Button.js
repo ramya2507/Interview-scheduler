@@ -12,11 +12,11 @@ export default function Button(props) {
       " button--danger":danger
    });
 
- return <button  
+ return (<button  
           disabled={disabled} 
           onClick={onClick} 
           className={buttonClass}
          >
             {children}
-         </button>;
+         </button>);
 }

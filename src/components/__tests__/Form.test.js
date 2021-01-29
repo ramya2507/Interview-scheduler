@@ -25,7 +25,7 @@ describe("Form", () => {
     expect(getByTestId("student-name-input")).toHaveValue("Lydia Miller-Jones");
   });
 
-  it("can successfully save after trying to submit an empty student name", () => {
+  it("can successfully save after trying to submit student name and interviewer", () => {
     const onSave = jest.fn();
     
     const { getByText, getByPlaceholderText, queryByText, getAllByTestId } = render(

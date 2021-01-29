@@ -35,8 +35,8 @@ export function useApplicationData(){
       })
   }
    //function to delete interview
-   const cancelInterview = (id, interview) => {
-    const appointment = {...state.appointments[id],interview: { ...interview } };
+   const cancelInterview = (id) => {
+    const appointment = {...state.appointments[id],interview: null };
     const appointments = {...state.appointments,[id]: appointment };
     //to update the spots available after axios resolves
     const days = (state.days).map(day => {

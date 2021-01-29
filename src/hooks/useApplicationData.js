@@ -16,7 +16,6 @@ export function useApplicationData(){
   });
   const setDay = day => setState({ ...state, day });
 
-  //function to book an appointment  
   const bookInterview = (id, interview, edit) => {
     const appointment = {...state.appointments[id],interview: { ...interview } };
     const appointments = {...state.appointments,[id]: appointment }; 
@@ -28,13 +27,12 @@ export function useApplicationData(){
       }
       return newDay;
     })
-    //using axios to put data in the api
     return axios.put(`http://localhost:8001/api/appointments/${id}`,{"interview":interview})
       .then( () => {
         edit ? setState({...state, appointments}): setState({...state, appointments,days});
       })
   }
-   //function to delete interview
+  
    const cancelInterview = (id) => {
     const appointment = {...state.appointments[id],interview: null };
     const appointments = {...state.appointments,[id]: appointment };
@@ -46,7 +44,6 @@ export function useApplicationData(){
       }
       return newDay;
     })
-    //using axios to delete data in the api
     return axios.delete(`http://localhost:8001/api/appointments/${id}`)
       .then( () => {
         setState({...state, appointments, days});

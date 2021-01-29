@@ -4,6 +4,7 @@ export function useVisualMode(initial) {
   const [mode, setMode] = useState(initial);
   const [history, setHistory] = useState([initial]);
 
+  //function used to move from one component to another using mode 
   const transition = (newMode, replace = false) => {
     if(replace){
       setHistory(prev => ([...(prev.slice(0,-1)), newMode]));
